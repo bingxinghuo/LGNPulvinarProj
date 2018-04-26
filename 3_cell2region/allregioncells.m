@@ -1,7 +1,7 @@
 %% 1. Set file directories
 targetdir='/Users/bingxinghuo/Dropbox (Marmoset)/BingxingHuo/Marmoset Brain Architecture/Paul Martin/';
 datadir='~/CSHLservers/mitragpu3/marmosetRIKEN/NZ/';
-animalid='m920';
+animalid='m919';
 % animal
 animalid=lower(animalid); % in case the input is upper case
 % original images
@@ -18,7 +18,7 @@ for t=1:3
     % set directory
     subregdir=[maskdir,toplevel{t},'/'];
     % get the section range
-    filels=dir('*.tif');
+    filels=dir([subregdir,'*.tif']);
     secrange=zeros(1,2);
     if ~isempty(filels)
         secnum=zeros(length(filels),1);

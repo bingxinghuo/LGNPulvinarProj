@@ -9,6 +9,8 @@ regiondata=cell(R,1);
 %% 1. import text file as cell array
 % regionoutlinetxt=['Marking-',jp2file,'.txt'];
 C=fileread(regionoutlinetxt);
+addind0=strfind(C,'Add:[[');
+C=C(addind0:end); % ignore all the deleted regions
 % specification
 regindr=zeros(R,1);
 for r=1:R

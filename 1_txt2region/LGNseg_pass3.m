@@ -28,10 +28,10 @@ toplevelind={[1,10,15:17];[2:9];[11:14]};
 F=length(filelist);
 cd(wkdir) % go to working directory
 % create directories to save the mask tif files
-maskdir=['../LGNPul_STIF/'];
+maskdir=[wkdir,'../LGNPul_STIF/'];
 for t=1:3
     if ~exist([maskdir,toplevel{t}],'dir')
-        mkdir([maskdir,toplevel{t}]
+        mkdir([maskdir,toplevel{t}])
     end
 end
 % go through every file
@@ -40,43 +40,46 @@ for f=1:F
     regionoutlinetxt=['Marking-',fileid,'.txt'];
     savefile=[fileid(1:end-4),'_LGNpul.mat'];
     % 1. convert text file into matrix
-    if ~exist(savefile)
-        if exist(regionoutlinetxt,'file')
+    if exist(regionoutlinetxt,'file')
+        if ~exist(savefile,'file')
             % read out individual region's polygon in full resolution
             regiondata=readanno3(fileid,STIFdir,vischeck);
             % save subregion data in full resolution
             save(savefile,'regiondata')
-            % 2. generate individual region's mask in downsampled resolution
-            nisslstif=imread([STIFdir,fileid(1:end-4)],'tif');
-            [tifheight,tifwidth,~]=size(nisslstif);
-            %             regionlabel=uint8(zeros(tifheight,tifwidth));
-            regionmask=cell(R,1);
-            subregionmask=[];
-            for r=1:R
-                if ~isempty(regiondata{r})
-                    regiondatadown=round(regiondata{r}/M);
-                    regionmask{r}=poly2mask(regiondatadown(:,1),regiondatadown(:,2),tifheight,tifwidth);
-                    regionmask{r}=regionmask{r}*labelind(r);
-                end
-            end
-            % all top level regions
-            for t=1:3
-                for l=1:length(toplevelind{t})
-                    subregi=toplevelind{t}(l);
-                    if ~isempty(regionmask{subregi})
-                        if isempty(subregionmask)
-                            subregionmask=regionmask{subregi};
-                        else
-                            subregionmask=subregionmask+regionmask{subregi};
-                        end
-                    end
-                end
-                % save
-                if ~isempty(subregionmask)
-                    subregfile=[maskdir,toplevel{t},'/',fileid(1:end-4),'.tif'];
-                    imwrite(uint8(subregionmask*15),subregfile,'tif','WriteMode','overwrite')
-                end
+        else
+            load(savefile)
+        end
+        % 2. generate individual region's mask in downsampled resolution
+        nisslstif=imread([STIFdir,fileid(1:end-4)],'tif');
+        [tifheight,tifwidth,~]=size(nisslstif);
+        %             regionlabel=uint8(zeros(tifheight,tifwidth));
+        regionmask=cell(R,1);
+        for r=1:R
+            if ~isempty(regiondata{r})
+                regiondatadown=round(regiondata{r}/M);
+                regionmask{r}=poly2mask(regiondatadown(:,1),regiondatadown(:,2),tifheight,tifwidth);
+                regionmask{r}=regionmask{r}*labelind(r);
             end
         end
+        % all top level regions
+        for t=1:3
+            subregionmask=[];
+            for l=1:length(toplevelind{t})
+                subregi=toplevelind{t}(l);
+                if ~isempty(regionmask{subregi})
+                    if isempty(subregionmask)
+                        subregionmask=regionmask{subregi};
+                    else
+                        subregionmask=subregionmask+regionmask{subregi};
+                    end
+                end
+            end
+            % save
+            if ~isempty(subregionmask)
+                subregfile=[maskdir,toplevel{t},'/',fileid(1:end-4),'.tif'];
+                imwrite(uint8(subregionmask*15),subregfile,'tif','WriteMode','overwrite')
+            end
+        end
+        
     end
 end
