@@ -58,7 +58,7 @@ for d=1:length(delims)
     Acoord=round(abs(Acoord));
     % save in the cooresponding cell
     if ~isempty(r)
-        regiondata{r}=Acoord;
+        regiondata{r}=[regiondata{r};Acoord];
     else
         if nargin<2
             error('Not enough input! TIF file directory is required to identify "null" regions.')

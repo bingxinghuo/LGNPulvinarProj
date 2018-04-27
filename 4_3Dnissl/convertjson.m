@@ -30,4 +30,4 @@ for f=1:length(filelist)
 end
 %%
 jmesh=cell2struct(regions,regionlist,1);
-savejson('',jmesh,'m920LGN.json');
+savejson('',jmesh,'m919LGN.json');

@@ -2,9 +2,12 @@
 % Bingxing Huo, July 2011
 % This script specifies the regions of interest in the OIS image
 function ROIinfo=brainROI(sampleimg,regionalmap)
+[rows,cols,c]=size(sampleimg);
 figure
 imagesc(sampleimg)
-colormap('gray')
+if c==1
+    colormap('gray')
+end
 if nargin>1
     hold on, contour(regionalmap,'r')
 end
@@ -17,7 +20,7 @@ subarea=cell(ROI_count,3);
 for i=1:ROI_count
     ystring=['y'];
     theinput=['n'];
-    display(['Select Region ' num2str(i) ' from the figure '])
+    disp(['Select Region ' num2str(i) ' from the figure '])
     while (strcmp(ystring,theinput)~=1)
         [subarea{i},subarea{i,2},subarea{i,3}]=roipoly;
         area_obj=impoly(gca,[subarea{i,2},subarea{i,3}]);
@@ -27,12 +30,17 @@ for i=1:ROI_count
         end
     end
 end
-subROIsum=zeros(size(sampleimg));
+subROIsum=zeros(rows,cols);
 for j=1:ROI_count
     subROIsum=subROIsum+subarea{j,1};
 end
 %plot sample Dalsa image
-imagesc(subROIsum.*double(sampleimg))
-colormap('gray')
+if c==1
+    imagesc(subROIsum.*double(sampleimg))
+    colormap('gray')
+else
+    sampleimggray=double(mean(sampleimg,3));
+    imagesc(subROIsum.*sampleimggray)
+end
 ROIinfo.ROImap=subROIsum;
 ROIinfo.ROIboundary=subarea;
