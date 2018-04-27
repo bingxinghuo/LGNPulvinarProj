@@ -28,7 +28,7 @@ toplevelind={[1,10,15:17];[2:9];[11:14]};
 F=length(filelist);
 cd(wkdir) % go to working directory
 % create directories to save the mask tif files
-maskdir=[wkdir,'../LGNPul_STIF/'];
+maskdir=[wkdir,'/../LGNPul_STIF/'];
 for t=1:3
     if ~exist([maskdir,toplevel{t}],'dir')
         mkdir([maskdir,toplevel{t}])

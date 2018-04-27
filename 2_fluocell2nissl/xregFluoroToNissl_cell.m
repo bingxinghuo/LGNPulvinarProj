@@ -59,5 +59,5 @@ if exist(ftifdir,'dir')
     fluorotif_deformed=[xregFdir,fluorojp2(updirind(end)+1:end-4),'.tif'];
 end
 %% 2. Python code to generate the transformation matrix
-status=system(['python ~/scripts/Connectivity_matrix/xregist/rigidFluoroToNissl_cellmask.py ',...
+status=system(['python ~/scripts/LGNPulvinarProj/2_fluocell2nissl/rigidFluoroToNissl_cellmask.py ',...
     nissltif,' ',fluorotif,' ',fluorotif_deformed,' ',transformtxt]);
