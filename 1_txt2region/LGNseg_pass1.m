@@ -60,6 +60,7 @@ end
 % imgwidth=imgsize.Width;
 % imgheight=imgsize.Height;
 %% 2. Use superpixel to manually select LGN and pulvinar regions
+roiimgall=[];
 if M>=32
     segment_sp=input('Do you want to try automatic segmentation? (y/n) ','s');
     % combine to grayscale

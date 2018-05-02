@@ -18,8 +18,10 @@ for f=1:length(filelist)
         secstart0=strfind(filelist{f},'N')+1;
         secstart1=strfind(filelist{f},'--')-1;
         secf=str2double(filelist{f}(secstart0:secstart1));
-        if secf<120
-            regions{r}{f}.z=(secf-sec1)*80;
+        %         if secf<120 % m919
+        %             regions{r}{f}.z=(secf-sec1)*80;
+        if secf==sec1
+            regions{r}{f}.z=0;
         else
             regions{r}{f}.z=regions{r}{f-1}.z+80;
         end
@@ -30,4 +32,4 @@ for f=1:length(filelist)
 end
 %%
 jmesh=cell2struct(regions,regionlist,1);
-savejson('',jmesh,'m919LGN.json');
+savejson('',jmesh,'m1144LGN.json');
