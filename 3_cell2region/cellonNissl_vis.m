@@ -1,7 +1,7 @@
 % initialize
 targetdir='/Users/bingxinghuo/Dropbox (Marmoset)/BingxingHuo/Marmoset Brain Architecture/Paul Martin/';
 datadir='~/CSHLservers/mitragpu3/marmosetRIKEN/NZ/';
-animalid='m1144';
+animalid='m1148';
 % set directory
 animalid=lower(animalid); % in case the input is upper case
 nissldir=[datadir,animalid,'/',animalid,'N/JP2/'];
@@ -18,7 +18,7 @@ regionlist={'DLG';'ExPC';'InPC';'InMC';'ExMC';'K1';'K2';'K3';'K4';...
 cd(nissldir)
 filelist=jp2lsread;
 % 2. Get cross-registered cell info
-load([targetdir,upper(animalid),'/FBdetect_xreg.mat'])
+load([datadir,animalid,'/',animalid,'F/cellxreg/FBdetect_xreg.mat'])
 % 3. Identify a range of images
 % [fileind0,~]=jp2ind(filelist,Nrange(1));
 % [fileind1,~]=jp2ind(filelist,Nrange(2));

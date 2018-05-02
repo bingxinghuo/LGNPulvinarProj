@@ -1,7 +1,7 @@
 %% 1. Set file directories
 targetdir='/Users/bingxinghuo/Dropbox (Marmoset)/BingxingHuo/Marmoset Brain Architecture/Paul Martin/';
 datadir='~/CSHLservers/mitragpu3/marmosetRIKEN/NZ/';
-animalid='m1146';
+animalid='m1148';
 % animal
 animalid=lower(animalid); % in case the input is upper case
 % original images
