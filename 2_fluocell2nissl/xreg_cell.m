@@ -44,14 +44,17 @@ Nfiles=length(fileinds_flu); % number of fluorescent sections
 fluorojp2=cell(Nfiles,1);
 maskmat=cell(Nfiles,1);
 for n=1:Nfiles
+    if fileinds_flu(n)>0
     fluorojp2{n}=[pwd,'/',flulist{fileinds_flu(n)}]; % generate individual file path for fluorescent sections
     maskmat{n}=[pwd,'/imgmasks/imgmaskdata_',num2str(fileinds_flu(n))]; % identify corresponding mask
+    end
 end
 %% 2. generate the cell mask from fluorescent series
 cd(fludir)
 load('FBdetectdata_consolid.mat', 'FBclear')
 FBnissl=cell(length(nissllist),1); % FB cell counting matched to individual nissl sections
 for n=1:Nfiles
+    if fileinds_flu(n)>0
     fluid=flulist{fileinds_flu(n)};
     disp(['Processing ',fluid,'...(',num2str(n),'/',num2str(Nfiles),')'])
     % get the image mask
@@ -96,6 +99,7 @@ for n=1:Nfiles
         FBnissl{fileinds_nissl(n)}=fbcelltf';
     else
         FBnissl{fileinds_nissl(n)}=[];
+    end
     end
 end
 save([workdir,'FBdetect_xreg'],'FBnissl','fileinds_flu','fileinds_nissl')
