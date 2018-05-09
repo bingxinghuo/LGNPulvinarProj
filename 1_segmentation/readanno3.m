@@ -58,7 +58,17 @@ for d=1:length(delims)
     Acoord=round(abs(Acoord));
     % save in the cooresponding cell
     if ~isempty(r)
-        regiondata{r}=[regiondata{r};Acoord];
+        if isempty(regiondata{r})
+        regiondata{r}=[regiondata{r},Acoord];
+        else % more than one polygon
+            l1=size(regiondata{r},1);
+            l2=size(Acoord,1);
+            lc=max(l1,l2);
+            fixlength=zeros(lc,size(regiondata{r},2)+2);
+            fixlength(1:l1,1:size(regiondata{r},2))=regiondata{r};
+            fixlength(1:l2,end-1:end)=Acoord;
+            regiondata{r}=fixlength;
+        end
     else
         if nargin<2
             error('Not enough input! TIF file directory is required to identify "null" regions.')

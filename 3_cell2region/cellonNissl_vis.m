@@ -1,7 +1,7 @@
 % initialize
 targetdir='/Users/bingxinghuo/Dropbox (Marmoset)/BingxingHuo/Marmoset Brain Architecture/Paul Martin/';
 datadir='~/CSHLservers/mitragpu3/marmosetRIKEN/NZ/';
-animalid='m1148';
+animalid='m822';
 % set directory
 animalid=lower(animalid); % in case the input is upper case
 nissldir=[datadir,animalid,'/',animalid,'N/JP2/'];
@@ -62,39 +62,56 @@ end
 %%
 for f=fileind0:fileind1
     savetif=[savedir,filelist{f}(1:end-4),'_cells.tif'];
-%     if ~exist(savetif,'file')
-        %  Nissl image
-        nissltif=imread([STIFdir,filelist{f}(1:end-4)],'tif');
-        figure, imagesc(nissltif)
-        % overlay region delineation
-        load([targetdir,upper(animalid),'/',upper(animalid),'_LGNPul/',filelist{f}(1:end-4),'_LGNpul.mat'])
-        hold on
-        regionpoly=cell(R,1);
-        for r=1:R
-            if ~isempty(regiondata{r})
+    %     if ~exist(savetif,'file')
+    %  Nissl image
+    nissltif=imread([STIFdir,filelist{f}(1:end-4)],'tif');
+    figure, imagesc(nissltif)
+    % overlay region delineation
+    load([targetdir,upper(animalid),'/',upper(animalid),'_LGNPul/',filelist{f}(1:end-4),'_LGNpul.mat'])
+    hold on
+    %%
+    regionpoly=cell(R,1);
+    for r=1:R
+        if ~isempty(regiondata{r})
+            subpolys=size(regiondata{r},2)/2;
+            if subpolys==1
                 regionpoly{r}=polyshape(regiondata{r}(:,1)/M,regiondata{r}(:,2)/M);
-                plot(regionpoly{r})
+            else
+                X=[];
+                Y=[];
+                for s=1:subpolys
+                    X=[X,{regiondata{r}(:,(s-1)*2+1)/M}];
+                    Y=[Y,{regiondata{r}(:,s*2)/M}];
+                end
+                regionpoly{r}=polyshape(X,Y);
             end
+            %             else
+            %             if ismember(r,[4:5])
+            %             regionpoly{r}=polyshape([10001:10003],[10001:10003]);
+            %             end
         end
-        % overlay cells
-        if ~isempty(FBnissl{f})
-            hold on, scatter(FBnissl{f}(:,1)/M,FBnissl{f}(:,2)/M,'.')
+        plot(regionpoly{r})
+    end
+    %%
+    % overlay cells
+    if ~isempty(FBnissl{f})
+        hold on, scatter(FBnissl{f}(:,1)/M,FBnissl{f}(:,2)/M,'.')
+    end
+    % show statistics
+    countlabel_all=[];
+    for r=1:R
+        if cellcount(f-fileind0+1,r)>0
+            countlabel=[regionlist{r},'=',num2str(cellcount(f-fileind0+1,r))];
+            countlabel_all=[countlabel_all,',',countlabel];
         end
-        % show statistics
-        countlabel_all=[];
-        for r=1:R
-            if cellcount(f-fileind0+1,r)>0
-                countlabel=[regionlist{r},'=',num2str(cellcount(f-fileind0+1,r))];
-                countlabel_all=[countlabel_all,',',countlabel];
-            end
-        end
-        if ~isempty(countlabel_all)
-            legend(countlabel_all(2:end))
-        end
-        set(gca,'fontsize',18)
-        % save image
-        saveas(gcf,savetif)
-        close
-%     end
+    end
+    if ~isempty(countlabel_all)
+        legend(countlabel_all(2:end))
+    end
+    set(gca,'fontsize',18)
+    % save image
+    saveas(gcf,savetif)
+    close
+    %     end
 end
 

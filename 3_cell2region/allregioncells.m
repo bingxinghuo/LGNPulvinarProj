@@ -1,11 +1,12 @@
 %% 1. Set file directories
 targetdir='/Users/bingxinghuo/Dropbox (Marmoset)/BingxingHuo/Marmoset Brain Architecture/Paul Martin/';
 datadir='~/CSHLservers/mitragpu3/marmosetRIKEN/NZ/';
-animalid='m1148';
+animalid='m822';
 % animal
 animalid=lower(animalid); % in case the input is upper case
 % original images
-fludir=[datadir,animalid,'/',animalid,'F/JP2/'];
+% fludir=[datadir,animalid,'/',animalid,'F/JP2/'];
+fludir=[datadir,animalid,'/',animalid,'F/JP2-8bit/'];
 nissldir=[datadir,animalid,'/',animalid,'N/JP2/'];
 workdir=[datadir,animalid,'/',animalid,'F/cellxreg/'];
 % processed data

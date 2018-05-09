@@ -56,8 +56,14 @@ for f=1:F
         regionmask=cell(R,1);
         for r=1:R
             if ~isempty(regiondata{r})
+                subpolys=size(regiondata{r},2)/2;
                 regiondatadown=round(regiondata{r}/M);
                 regionmask{r}=poly2mask(regiondatadown(:,1),regiondatadown(:,2),tifheight,tifwidth);
+                if subpolys>1
+                    for s=2:subpolys
+                    regionmask{r}=regionmask{r}+poly2mask(regiondatadown(:,(s-1)*2+1),regiondatadown(:,s*2),tifheight,tifwidth);
+                    end
+                end
                 regionmask{r}=regionmask{r}*labelind(r);
             end
         end

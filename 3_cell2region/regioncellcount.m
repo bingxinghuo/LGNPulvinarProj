@@ -12,7 +12,10 @@ cd(nissldir)
 nissllist=jp2lsread;
 cd(regdir)
 regcount=zeros(N,R);
-for n=1:N
+
+%%
+% for n=1:N
+    for n=4
     try
         % region mask file
         regtif=[nissllist{fileinds_nissl(n)}(1:end-4),'.tif'];
