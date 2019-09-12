@@ -3,8 +3,9 @@
 % Extract volumes of koniocellular layers of LGN and inferior pulvinar
 %
 targetdir='/Users/bingxinghuo/Dropbox (Marmoset)/BingxingHuo/Marmoset Brain Architecture/Paul Martin/';
-animalid='M1148';
-workdir=[targetdir,upper(animalid),'/',upper(animalid),'_LGNPul/'];
+animalid='M920';
+% workdir=[targetdir,upper(animalid),'/',upper(animalid),'_LGNPul/'];
+workdir=[targetdir,upper(animalid),'/',upper(animalid),'_LGNPul/segmentation_with_cell_count/'];
 R=17;
 %% get the section range
 cd(workdir)

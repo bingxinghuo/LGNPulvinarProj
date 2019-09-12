@@ -6,8 +6,8 @@ function layerseg
 filels=dir('*_LGNpul.mat');
 if ~isempty(filels)
     for d=1:length(filels)
-% for d=26
         fileid=filels(d).name;
+        disp(fileid)
         manseg(fileid);
     end
 end
