@@ -1,4 +1,4 @@
-# LGNPulvinarProj
+# Marmoset Brain Fluorescent Neuron Detection
 A routine for counting automatically detected cells in specific brain regions.
 
 April 2018
